@@ -1,10 +1,12 @@
 'use client'
-import Image from "next/image";
 import { useState, useEffect } from 'react';
-import { firestore } from "@/firebase";
+import dynamic from 'next/dynamic';
 import { Box, Button, Modal, Stack, TextField, Typography } from "@mui/material";
-import { collection, deleteDoc, getDoc, getDocs, query, setDoc, doc } from "firebase/firestore";
 import SearchIcon from '@mui/icons-material/Search';
+
+// Dynamically import firestore to ensure it only runs on the client side
+const firestore = dynamic(() => import('@/firebase').then(mod => mod.firestore), { ssr: false });
+const { collection, deleteDoc, getDoc, getDocs, query, setDoc, doc } = dynamic(() => import('firebase/firestore'), { ssr: false });
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
